@@ -17,6 +17,51 @@ window.addEventListener("load", () => {
     draw();
 });
 
+function createGrid() {
+    let sizeInputValue = sizeInput.value;
+
+    if (!isValidSize(sizeInputValue)) {
+        showSizeError();
+        return;
+    }
+
+    resetUI();
+    buildGrid(sizeInputValue);
+    draw();
+}
+
+// Build grid with nested divs and CSS flex-box
+function buildGrid(size) {
+    for (let i = 0; i < size; i++) {
+        let row = document.createElement("div");
+        row.classList.add("row");
+        container.appendChild(row);
+
+        for (let j = 0; j < size; j++) {
+            let column = document.createElement("div");
+            column.classList.add("column");
+            row.appendChild(column);
+        }
+    }
+}
+
+// Add event listeners to the created divs with class "column"
+function draw() {
+    const columns = document.querySelectorAll(".column");
+
+    columns.forEach((column) => {
+        column.addEventListener("mouseover", changeColor);
+    });
+}
+
+function resetGrid() {
+    const columns = document.querySelectorAll(".column");
+
+    columns.forEach((column) => {
+        column.style.backgroundColor = "";
+    });
+}
+
 function changeColor() {
     let blackRadio = document.getElementById("black-pen");
     let redRadio = document.getElementById("red-pen");
@@ -38,6 +83,18 @@ function changeColor() {
     }
 }
 
+function resetUI() {
+    sizePrompt.textContent = "";
+    copyInput.textContent = "";
+    sizeInput.value = "";
+    container.innerHTML = "";
+}
+
+// Display to user the square grid size as # x #
+function displayGridSize() {
+    copyInput.textContent = `x ${sizeInput.value}`;
+}
+
 function isValidSize(size) {
     return !isNaN(size) && size >= 2 && size <= 99;
 }
@@ -46,64 +103,6 @@ function showSizeError() {
     sizePrompt.textContent = "Make sure it's a number from 2 to 99!";
 }
 
-function resetUI() {
-    sizePrompt.textContent = "";
-    copyInput.textContent = "";
-    sizeInput.value = "";
-    container.innerHTML = "";
-}
-
-function buildGrid(size) {
-    for (let i = 0; i < size; i++) {
-        let row = document.createElement("div");
-        row.classList.add("row");
-        container.appendChild(row);
-
-        for (let j = 0; j < size; j++) {
-            let column = document.createElement("div");
-            column.classList.add("column");
-            row.appendChild(column);
-        }
-    }
-}
-
-// Create a grid with nested divs and flex-box
-function createGrid() {
-    let sizeInputValue = sizeInput.value;
-
-    if (!isValidSize(sizeInputValue)) {
-        showSizeError();
-        return;
-    }
-
-    resetUI();
-    buildGrid(sizeInputValue);
-    draw();
-}
-
-// Display to user the square grid size as # x #
-function displayGridSize() {
-    let sizeInputValue = sizeInput.value;
-    copyInput.textContent = `x ${sizeInputValue}`;
-}
-
-// Add event listeners to the created divs with class "column"
-function draw() {
-    const columns = document.querySelectorAll(".column");
-
-    columns.forEach((column) => {
-        column.addEventListener("mouseover", changeColor);
-    });
-}
-
 function entryHint() {
     sizePrompt.textContent = `Enter a number between 2 and 99.`;
-}
-
-function resetGrid() {
-    const columns = document.querySelectorAll(".column");
-
-    columns.forEach((column) => {
-        column.style.backgroundColor = "";
-    });
 }
