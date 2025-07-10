@@ -15,6 +15,7 @@ resetBtn.addEventListener("click", resetGrid);
 window.addEventListener("load", () => {
     buildGrid(DEFAULT_GRID_SIZE);
     draw();
+    sizeInput.placeholder = DEFAULT_GRID_SIZE;
 });
 
 function createGrid() {
@@ -28,6 +29,7 @@ function createGrid() {
     resetUI();
     buildGrid(sizeInputValue);
     draw();
+    sizeInput.placeholder = sizeInputValue;
 }
 
 // Build grid with nested divs and CSS flex-box
