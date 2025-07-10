@@ -13,7 +13,7 @@ resetBtn.addEventListener("click", resetGrid);
 
 // Create a 16x16 drawable grid on window load
 window.addEventListener("load", () => {
-    createGrid();
+    buildGrid(DEFAULT_GRID_SIZE);
     draw();
 });
 
@@ -38,44 +38,46 @@ function changeColor() {
     }
 }
 
+function isValidSize(size) {
+    return !isNaN(size) && size >= 2 && size <= 99;
+}
+
+function showSizeError() {
+    sizePrompt.textContent = "Make sure it's a number from 2 to 99!";
+}
+
+function resetUI() {
+    sizePrompt.textContent = "";
+    copyInput.textContent = "";
+    sizeInput.value = "";
+    container.innerHTML = "";
+}
+
+function buildGrid(size) {
+    for (let i = 0; i < size; i++) {
+        let row = document.createElement("div");
+        row.classList.add("row");
+        container.appendChild(row);
+
+        for (let j = 0; j < size; j++) {
+            let column = document.createElement("div");
+            column.classList.add("column");
+            row.appendChild(column);
+        }
+    }
+}
+
 // Create a grid with nested divs and flex-box
 function createGrid() {
     let sizeInputValue = sizeInput.value;
-    if (sizeInputValue < 0 || sizeInputValue > 99 || isNaN(sizeInputValue)) {
-        sizePrompt.textContent = "Make sure it's a number from 2 to 99!";
-    } else {
-        sizePrompt.textContent = "";
-        copyInput.textContent = "";
-        sizeInput.value = "";
-        container.innerHTML = "";
-        if (
-            sizeInputValue == 0 ||
-            sizeInputValue > 99 ||
-            sizeInputValue == ""
-        ) {
-            for (let i = 0; i < 16; i++) {
-                let row = document.createElement("div");
-                row.classList.add("row");
-                container.appendChild(row);
-                for (let j = 0; j < 16; j++) {
-                    let column = document.createElement("div");
-                    column.classList.add("column");
-                    row.appendChild(column);
-                }
-            }
-        } else {
-            for (let i = 0; i < sizeInputValue; i++) {
-                let row = document.createElement("div");
-                row.classList.add("row");
-                container.appendChild(row);
-                for (let j = 0; j < sizeInputValue; j++) {
-                    let column = document.createElement("div");
-                    column.classList.add("column");
-                    row.appendChild(column);
-                }
-            }
-        }
+
+    if (!isValidSize(sizeInputValue)) {
+        showSizeError();
+        return;
     }
+
+    resetUI();
+    buildGrid(sizeInputValue);
     draw();
 }
 
