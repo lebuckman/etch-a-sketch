@@ -21,7 +21,7 @@ function changeColor() {
     let blackRadio = document.getElementById("black-pen");
     let redRadio = document.getElementById("red-pen");
     let blueRadio = document.getElementById("blue-pen");
-    let rainbow = document.getElementById("rainbow-pen");
+    let randomRadio = document.getElementById("random-pen");
     let eraserRadio = document.getElementById("eraser-pen");
 
     if (blackRadio.checked) {
@@ -32,7 +32,7 @@ function changeColor() {
         this.style.backgroundColor = "#3f33dd";
     } else if (eraserRadio.checked) {
         this.style.backgroundColor = "";
-    } else if (rainbow.checked) {
+    } else if (randomRadio.checked) {
         let randomColor = Math.floor(Math.random() * 16777215).toString(16);
         this.style.backgroundColor = "#" + randomColor;
     }
